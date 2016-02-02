@@ -25,7 +25,8 @@
             android:id="@+id/home_recycler"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginTop="?attr/actionBarSize" />
+            android:layout_marginTop="?attr/actionBarSize"
+             />
 
 
         <android.support.design.widget.FloatingActionButton
@@ -38,9 +39,7 @@
     </FrameLayout>
 
 
-<include
-    layout="@layout/layout_main_navigation"
-    />
+    <include layout="@layout/layout_main_navigation" />
 
 
 </android.support.v4.widget.DrawerLayout>

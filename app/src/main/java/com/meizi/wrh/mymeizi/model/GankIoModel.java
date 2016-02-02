@@ -50,6 +50,16 @@ public class GankIoModel {
         private String publishedAt;
         private String desc;
         private String type;
+        private String subType;
+
+        public String getSubType() {
+            return subType;
+        }
+
+        public void setSubType(String subType) {
+            this.subType = subType;
+        }
+
         private String url;
         private boolean used;
         private String objectId;
