@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyMeiZi</string>
+    <string name="home_navigation_close">关闭</string>
+    <string name="home_navigation_open">打开</string>
 </resources>
