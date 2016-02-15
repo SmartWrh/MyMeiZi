@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_directions_car_white_18dp" />
+            android:src="@drawable/ic_directions_car_white_24dp" />
     </FrameLayout>
 
 

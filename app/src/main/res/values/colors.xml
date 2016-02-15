@@ -4,7 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="white_10">#1Affffff</color>
 
+    <color name="ripple_material_dark">#33ffffff</color>
+    <color name="ripple_material_light">#1f000000</color>
 
     <color name="black_80">#CC000000</color>
     <color name="black_60">#99000000</color>
@@ -14,4 +18,5 @@
     <color name="black_20">#33000000</color>
     <color name="black_10">#1A000000</color>
     <color name="black_0">#00000000</color>
+    <color name="black">#000000</color>
 </resources>

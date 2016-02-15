@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.jakewharton.rxbinding.view.RxView;
 import com.meizi.wrh.mymeizi.R;
 import com.meizi.wrh.mymeizi.constans.BaseEnum;
 import com.meizi.wrh.mymeizi.constans.BaseImageUrl;
@@ -17,6 +18,9 @@ import com.meizi.wrh.mymeizi.model.GankIoModel;
 import com.meizi.wrh.mymeizi.util.StrUtil;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import rx.functions.Action1;
 
 /**
  * Created by wrh on 16/2/2.
@@ -44,10 +48,10 @@ public class MaterialFeedLayout extends RelativeLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.view_home_feed, this);
         mBinding = ViewHomeFeedBinding.inflate(inflater, this, true);
-        mBinding.viewLinearFeed.setOnClickListener(new OnClickListener() {
+        RxView.clicks(mBinding.viewLinearFeed).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
-            public void onClick(View v) {
-                Log.d("TAG","onClick");
+            public void call(Void aVoid) {
+
             }
         });
     }
