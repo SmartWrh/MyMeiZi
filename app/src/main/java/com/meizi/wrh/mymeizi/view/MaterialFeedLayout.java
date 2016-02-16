@@ -46,7 +46,6 @@ public class MaterialFeedLayout extends RelativeLayout {
 
     private void initView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.view_home_feed, this);
         mBinding = ViewHomeFeedBinding.inflate(inflater, this, true);
         RxView.clicks(mBinding.viewLinearFeed).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
