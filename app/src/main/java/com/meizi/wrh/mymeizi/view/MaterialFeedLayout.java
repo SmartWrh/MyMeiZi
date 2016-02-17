@@ -59,11 +59,11 @@ public class MaterialFeedLayout extends RelativeLayout {
     public void setData(GankIoModel.ResultsEntity data) {
         data.setSubType(StrUtil.formatType(data.getType()));
         mBinding.setGankio(data);
-        if (!data.getType().equals(BaseEnum.fuli.getValue())) {
-            Glide.with(getContext()).load(getUrl(data.getType())).centerCrop().into(mBinding.viewImgFeed);
-        } else {
+//        if (!data.getType().equals(BaseEnum.fuli.getValue())) {
+//            Glide.with(getContext()).load(getUrl(data.getType())).centerCrop().into(mBinding.viewImgFeed);
+//        } else {
             Glide.with(getContext()).load(data.getUrl()).centerCrop().into(mBinding.viewImgFeed);
-        }
+//        }
     }
 
 

@@ -60,7 +60,7 @@ public class DriverFeedAdapter extends RecyclerViewLayout.Adapter<DriverFeedAdap
         return false;
     }
 
-    class ItemHolder extends RecyclerView.ViewHolder {
+    static class ItemHolder extends RecyclerView.ViewHolder {
         DriverView driverView;
 
         public ItemHolder(View itemView) {

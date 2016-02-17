@@ -56,7 +56,7 @@ public class HomeFeedAdapter extends RecyclerViewLayout.Adapter<HomeFeedAdapter.
         return false;
     }
 
-     class ItemHolder extends RecyclerView.ViewHolder {
+    static class ItemHolder extends RecyclerView.ViewHolder {
         MaterialFeedLayout feedLayout;
 
         public ItemHolder(View itemView) {

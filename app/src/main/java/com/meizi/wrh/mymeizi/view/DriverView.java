@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -22,10 +24,13 @@ import com.meizi.wrh.mymeizi.databinding.ViewDriverFeedBinding;
 import com.meizi.wrh.mymeizi.model.GankIoModel;
 import com.meizi.wrh.mymeizi.model.SizeModel;
 
+import java.lang.annotation.Target;
+
 /**
  * Created by wrh on 16/2/15.
  */
 public class DriverView extends RelativeLayout {
+    private boolean isGlobal;
     private ViewDriverFeedBinding mBinding;
     private SizeModel mSizeModel;
     private DriverViewTarget mViewTarget;
@@ -50,14 +55,20 @@ public class DriverView extends RelativeLayout {
         mBinding = ViewDriverFeedBinding.inflate(inflater, this, true);
     }
 
-    public void setData(GankIoModel.ResultsEntity data, SizeModel sizeModel) {
+    public void setData(final GankIoModel.ResultsEntity data, SizeModel sizeModel) {
         mBinding.setGankio(data);
         mSizeModel = sizeModel;
         mViewTarget = new DriverViewTarget(mBinding.viewImgFeed);
         if (!mSizeModel.isNull()) {
             setCardViewLayoutParams(mSizeModel.getWidth(), mSizeModel.getHeight());
         }
-        Glide.with(getContext()).load(data.getUrl()).asBitmap().fitCenter().into(mViewTarget);
+        
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                Glide.with(getContext()).load(data.getUrl()).asBitmap().fitCenter().override(mBinding.viewImgFeed.getWidth(), BitmapImageViewTarget.SIZE_ORIGINAL).into(mViewTarget);
+            }
+        });
     }
 
     private void setCardViewLayoutParams(int width, int height) {
@@ -81,7 +92,6 @@ public class DriverView extends RelativeLayout {
                 int viewHeight = (int) (resource.getHeight() * scale);
                 setCardViewLayoutParams(viewWidth, viewHeight);
                 mSizeModel.setSize(viewWidth, viewHeight);
-                Log.d("TAG", "width:" + viewWidth + "\theight:" + viewHeight + "\tscale:" + scale + "\tbitmap:" + resource.getHeight());
             }
             super.onResourceReady(resource, glideAnimation);
         }

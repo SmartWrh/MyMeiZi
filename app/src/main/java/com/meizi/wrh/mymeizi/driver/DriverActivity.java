@@ -98,8 +98,7 @@ public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.
 
     @Override
     public void loadMore() {
-        Log.d("TAG", "loadMore");
-//        loadData();
+        loadData();
     }
 
     /**
@@ -108,7 +107,6 @@ public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.
     class LoadNetSubscriber extends Subscriber<GankIoModel.ResultsEntity> {
         @Override
         public void onCompleted() {
-             Log.d("TAG","onCompleted");
         }
 
         @Override

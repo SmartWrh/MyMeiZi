@@ -11,6 +11,7 @@ import rx.Observable;
  */
 public interface GankIoService {
 
-    @GET("{type}/10/{count}")
+    @GET("data/{type}/10/{count}")
     Observable<GankIoModel> homeResult(@Path("type") String type, @Path("count") int count);
+
 }

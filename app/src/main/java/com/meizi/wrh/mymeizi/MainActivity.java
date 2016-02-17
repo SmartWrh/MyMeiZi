@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import com.github.katelee.widget.RecyclerViewLayout;
 import com.github.katelee.widget.recyclerviewlayout.AdvanceAdapter;
-import com.jakewharton.rxbinding.view.RxView;
 import com.meizi.wrh.mymeizi.adapter.HomeFeedAdapter;
 import com.meizi.wrh.mymeizi.constans.BaseEnum;
 import com.meizi.wrh.mymeizi.constans.BaseService;
@@ -33,7 +31,6 @@ import com.meizi.wrh.mymeizi.util.HidingScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
@@ -42,8 +39,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements AdvanceAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
@@ -81,15 +78,34 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
 
     private void loadData() {
         Observable<GankIoModel> observable = service.homeResult(mLoadType, mCount);
+        int count = mCount < 20 ? mCount : 19;
+        Observable<GankIoModel> observableFuli = service.homeResult(BaseEnum.fuli.getValue(), count);
         if (mLoadNetScription != null && mLoadNetScription.isUnsubscribed()) {
             mLoadNetScription.unsubscribe();
         }
-        mLoadNetScription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).filter(new Func1<GankIoModel, Boolean>() {
+        mLoadNetScription = Observable.combineLatest(observable, observableFuli, new Func2<GankIoModel, GankIoModel, GankIoModel>() {
+            @Override
+            public GankIoModel call(GankIoModel gankIoModel, GankIoModel gankIoModel2) {
+                int size = gankIoModel2.getResults().size();
+                for (int i = 0; i < size; i++) {
+                    gankIoModel.getResults().get(i).setUrl(gankIoModel2.getResults().get(i).getUrl());
+                }
+                return gankIoModel;
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).filter(new Func1<GankIoModel, Boolean>() {
             @Override
             public Boolean call(GankIoModel gankIoModel) {
                 return !gankIoModel.isError() && gankIoModel != null;
             }
-        }).subscribe(new LoadNetSubscriber());
+        }).flatMap(new FilterMap()).subscribe(new LoadNetSubscriber());
+
+
+//        mLoadNetScription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).filter(new Func1<GankIoModel, Boolean>() {
+//            @Override
+//            public Boolean call(GankIoModel gankIoModel) {
+//                return !gankIoModel.isError() && gankIoModel != null;
+//            }
+//        }).flatMap(new FilterMap()).subscribe(new LoadNetSubscriber());
         mCount++;
     }
 
@@ -99,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
         recyclerView.getRecyclerView().setAdapter(feedAdapter);
         feedAdapter.setOnLoadMoreListener(this);
         feedAdapter.disableLoadMore();
-
     }
 
     private void initView() {
@@ -237,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
     /**
      * 网络请求
      */
-    class LoadNetSubscriber extends Subscriber<GankIoModel> {
+    class LoadNetSubscriber extends Subscriber<GankIoModel.ResultsEntity> {
         @Override
         public void onCompleted() {
 
@@ -249,17 +264,24 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
         }
 
         @Override
-        public void onNext(GankIoModel gankIoModel) {
+        public void onNext(GankIoModel.ResultsEntity resultsEntity) {
+            mData.add(resultsEntity);
+            feedAdapter.notifyAdapterItemInserted(mData.size());
+        }
+    }
+
+    class FilterMap implements Func1<GankIoModel, Observable<GankIoModel.ResultsEntity>> {
+
+        @Override
+        public Observable<GankIoModel.ResultsEntity> call(GankIoModel gankIoModel) {
             if (gankIoModel.getResults().size() >= 10) {
                 feedAdapter.enableLoadMore();
             } else {
                 feedAdapter.disableLoadMore();
             }
-            List<GankIoModel.ResultsEntity> tempData = mData;
-            mData.addAll(gankIoModel.getResults());
-            feedAdapter.notifyAdapterItemRangeInserted(tempData.size(), mData.size());
             feedAdapter.setLoadingMore(false);
             recyclerView.setRefreshing(false);
+            return Observable.from(gankIoModel.getResults());
         }
     }
 
