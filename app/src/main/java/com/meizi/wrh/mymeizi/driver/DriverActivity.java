@@ -1,16 +1,21 @@
 package com.meizi.wrh.mymeizi.driver;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.katelee.widget.RecyclerViewLayout;
 import com.github.katelee.widget.recyclerviewlayout.AdvanceAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.meizi.wrh.mymeizi.R;
 import com.meizi.wrh.mymeizi.adapter.DriverFeedAdapter;
 import com.meizi.wrh.mymeizi.adapter.HomeFeedAdapter;
@@ -33,14 +38,16 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import uk.co.senab.photoview.PhotoView;
 
-public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.OnLoadMoreListener {
+public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.OnLoadMoreListener,SwipeRefreshLayout.OnRefreshListener {
 
     private int mCount = 1;
     private Retrofit mRetrofit;
     private Subscription mLoadNetScription;
     private GankIoService service;
 
+    private Toolbar toolbar;
     private DriverFeedAdapter feedAdapter;
     private RecyclerViewLayout recyclerView;
 
@@ -76,8 +83,13 @@ public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.
     }
 
     private void initView() {
+        toolbar = (Toolbar) findViewById(R.id.driver_toolbar);
+        toolbar.setTitle(getResources().getString(R.string.driver_know_world));
+        setSupportActionBar(toolbar);
         recyclerView = (RecyclerViewLayout) findViewById(R.id.driver_recycler);
         recyclerView.getRecyclerView().setHasFixedSize(true);
+        recyclerView.post(refreshRunnable);
+        recyclerView.setOnRefreshListener(this);
         recyclerView.getRecyclerView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
@@ -88,6 +100,13 @@ public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.
         feedAdapter.disableLoadMore();
     }
 
+    private Runnable refreshRunnable = new Runnable() {
+        @Override
+        public void run() {
+            recyclerView.setRefreshing(true);
+        }
+    };
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -97,7 +116,26 @@ public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public void loadMore() {
+        loadData();
+    }
+
+    @Override
+    public void onRefresh() {
+        mCount = 1;
+        feedAdapter.disableLoadMore();
+        feedAdapter.notifyAdapterItemRangeRemoved(0, mData.size());
+        mData.clear();
         loadData();
     }
 
@@ -126,7 +164,6 @@ public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.
     }
 
     class FilterMap implements Func1<GankIoModel, Observable<GankIoModel.ResultsEntity>> {
-
         @Override
         public Observable<GankIoModel.ResultsEntity> call(GankIoModel gankIoModel) {
             if (gankIoModel.getResults().size() >= 10) {

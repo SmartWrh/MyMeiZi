@@ -1,0 +1,30 @@
+package com.meizi.wrh.mymeizi.util;
+
+import android.content.Context;
+import android.os.Environment;
+
+import java.io.File;
+
+/**
+ * Created by wrh on 16/2/19.
+ */
+public class FileUtil {
+
+    private Context mContext;
+
+    public FileUtil(Context context) {
+        mContext = context;
+    }
+
+    public File getDiskCacheDir(String uniqueName) {
+        String cachePath;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = mContext.getExternalCacheDir().getPath();
+        } else {
+            cachePath = mContext.getCacheDir().getPath();
+        }
+        return new File(cachePath + File.separator + uniqueName);
+    }
+
+}

@@ -18,11 +18,26 @@
         android:scrollbars="vertical"
         app:cardCornerRadius="5dp">
 
-        <ImageView
-            android:id="@+id/view_img_feed"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/view_img_feed"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                />
+
+            <View
+                android:id="@+id/view_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/view_img_feed"
+                android:layout_alignTop="@id/view_img_feed"
+                android:background="@drawable/driverbackground" />
+
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 

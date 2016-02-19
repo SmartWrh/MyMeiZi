@@ -55,28 +55,9 @@ public class MaterialFeedLayout extends RelativeLayout {
         });
     }
 
-
     public void setData(GankIoModel.ResultsEntity data) {
         data.setSubType(StrUtil.formatType(data.getType()));
         mBinding.setGankio(data);
-//        if (!data.getType().equals(BaseEnum.fuli.getValue())) {
-//            Glide.with(getContext()).load(getUrl(data.getType())).centerCrop().into(mBinding.viewImgFeed);
-//        } else {
-            Glide.with(getContext()).load(data.getUrl()).centerCrop().into(mBinding.viewImgFeed);
-//        }
-    }
-
-
-    private String getUrl(String type) {
-        switch (type) {
-            case "App":
-                return BaseImageUrl.APP;
-            case "Android":
-                return BaseImageUrl.ANDROID;
-            case "iOS":
-                return BaseImageUrl.IOS;
-            default:
-                return BaseImageUrl.OTHER;
-        }
+        Glide.with(getContext()).load(data.getUrl()).centerCrop().into(mBinding.viewImgFeed);
     }
 }

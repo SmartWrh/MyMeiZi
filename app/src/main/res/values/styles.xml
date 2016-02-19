@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="PhotoTheme" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/black</item>
+    </style>
+
     <!-- tablayout-->
     <style name="DarkTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/DarkTabLayoutText</item>

@@ -78,8 +78,7 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
 
     private void loadData() {
         Observable<GankIoModel> observable = service.homeResult(mLoadType, mCount);
-        int count = mCount < 20 ? mCount : 19;
-        Observable<GankIoModel> observableFuli = service.homeResult(BaseEnum.fuli.getValue(), count);
+        Observable<GankIoModel> observableFuli = service.homeResult(BaseEnum.fuli.getValue(), mCount);
         if (mLoadNetScription != null && mLoadNetScription.isUnsubscribed()) {
             mLoadNetScription.unsubscribe();
         }
@@ -87,8 +86,11 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
             @Override
             public GankIoModel call(GankIoModel gankIoModel, GankIoModel gankIoModel2) {
                 int size = gankIoModel2.getResults().size();
-                for (int i = 0; i < size; i++) {
-                    gankIoModel.getResults().get(i).setUrl(gankIoModel2.getResults().get(i).getUrl());
+                List<GankIoModel.ResultsEntity> resultsEntities = gankIoModel.getResults();
+                for (int i = 0; i < resultsEntities.size(); i++) {
+                    if (!resultsEntities.get(i).getType().equals(BaseEnum.fuli.getValue())) {
+                        resultsEntities.get(i).setUrl(gankIoModel2.getResults().get(i).getUrl());
+                    }
                 }
                 return gankIoModel;
             }
@@ -99,13 +101,6 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
             }
         }).flatMap(new FilterMap()).subscribe(new LoadNetSubscriber());
 
-
-//        mLoadNetScription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).filter(new Func1<GankIoModel, Boolean>() {
-//            @Override
-//            public Boolean call(GankIoModel gankIoModel) {
-//                return !gankIoModel.isError() && gankIoModel != null;
-//            }
-//        }).flatMap(new FilterMap()).subscribe(new LoadNetSubscriber());
         mCount++;
     }
 
