@@ -14,4 +14,6 @@ public interface GankIoService {
     @GET("data/{type}/10/{count}")
     Observable<GankIoModel> homeResult(@Path("type") String type, @Path("count") int count);
 
+    @GET("random/data/福利/1")
+    Observable<GankIoModel> randomResult();
 }

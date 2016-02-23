@@ -1,0 +1,12 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/left_menu_select">
+    <item android:id="@android:id/mask">
+        <color android:color="@color/white" />
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+</ripple>  

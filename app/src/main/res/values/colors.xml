@@ -3,12 +3,28 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorPrimaryDark_night">#3D3D3D</color>
+    <color name="colorPrimary_night">#373737</color>
+
+    <color name="colorPrimary_pink">#FF4081</color>
+    <color name="colorAccent_pink">#FF5722</color>
+
+    <color name="colorPrimary_yellow">#FFeb3b</color>
+
+
     <color name="white">#FFFFFF</color>
     <color name="white_80">#CCFFFFFF</color>
     <color name="white_10">#1Affffff</color>
 
+    <color name="icon_tint">#7f7f7f</color>
+
     <color name="ripple_material_dark">#33ffffff</color>
     <color name="ripple_material_light">#1f000000</color>
+
+    <color name="left_menu_select">@android:color/darker_gray</color>
+    <color name="dialog_background">#2C2C2C</color>
+
 
     <color name="black_80">#CC000000</color>
     <color name="black_60">#99000000</color>

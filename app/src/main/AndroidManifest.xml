@@ -3,7 +3,7 @@
     package="com.meizi.wrh.mymeizi" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,12 @@
         <activity
             android:name=".driver.DriverActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".driver.PhotoActivity" >
+        <activity
+            android:name=".driver.PhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".localfile.LocalFilesActivity" >
+        </activity>
+        <activity android:name=".activity.WebActivity" >
         </activity>
     </application>
 

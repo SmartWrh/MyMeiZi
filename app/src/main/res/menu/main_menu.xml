@@ -2,34 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/main_all_menu"
-        android:showAsAction="always"
-        android:title="All"
         android:icon="@drawable/ic_more_vert_white"
-        />
+        android:showAsAction="always"
+        android:title="All" />
 
     <item
-        android:showAsAction="never"
         android:id="@+id/main_android_menu"
-        android:title="Android"/>
+        android:showAsAction="never"
+        android:title="Android" />
 
     <item
-        android:showAsAction="never"
         android:id="@+id/main_ios_menu"
-        android:title="IOS"/>
+        android:showAsAction="never"
+        android:title="IOS" />
 
 
     <item
-        android:showAsAction="never"
         android:id="@+id/main_video_menu"
-        android:title="休息视频"/>
+        android:showAsAction="never"
+        android:title="休息视频" />
 
     <item
-        android:showAsAction="never"
         android:id="@+id/main_expand_menu"
-        android:title="拓展资源"/>
+        android:showAsAction="never"
+        android:title="拓展资源" />
 
     <item
-        android:showAsAction="never"
         android:id="@+id/main_qianduan_menu"
-        android:title="前端"/>
+        android:showAsAction="never"
+        android:title="前端" />
 </menu>

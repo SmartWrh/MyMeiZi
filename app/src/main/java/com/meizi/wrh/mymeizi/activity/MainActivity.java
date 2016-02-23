@@ -1,16 +1,15 @@
-package com.meizi.wrh.mymeizi;
+package com.meizi.wrh.mymeizi.activity;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +20,13 @@ import android.widget.Toast;
 
 import com.github.katelee.widget.RecyclerViewLayout;
 import com.github.katelee.widget.recyclerviewlayout.AdvanceAdapter;
+import com.meizi.wrh.mymeizi.R;
 import com.meizi.wrh.mymeizi.adapter.HomeFeedAdapter;
 import com.meizi.wrh.mymeizi.constans.BaseEnum;
 import com.meizi.wrh.mymeizi.constans.BaseService;
 import com.meizi.wrh.mymeizi.constans.GankIoService;
 import com.meizi.wrh.mymeizi.driver.DriverActivity;
+import com.meizi.wrh.mymeizi.fragment.LeftMenuFragment;
 import com.meizi.wrh.mymeizi.model.GankIoModel;
 import com.meizi.wrh.mymeizi.util.HidingScrollListener;
 
@@ -43,7 +44,7 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity implements AdvanceAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements AdvanceAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private int mCount = 1;
     private String mType = "All";
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
     private GankIoService service;
     private MyScrollListener scrollListener;
 
+    private LeftMenuFragment leftMenuFragment;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -85,11 +87,12 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
         mLoadNetScription = Observable.combineLatest(observable, observableFuli, new Func2<GankIoModel, GankIoModel, GankIoModel>() {
             @Override
             public GankIoModel call(GankIoModel gankIoModel, GankIoModel gankIoModel2) {
-                int size = gankIoModel2.getResults().size();
                 List<GankIoModel.ResultsEntity> resultsEntities = gankIoModel.getResults();
                 for (int i = 0; i < resultsEntities.size(); i++) {
                     if (!resultsEntities.get(i).getType().equals(BaseEnum.fuli.getValue())) {
-                        resultsEntities.get(i).setUrl(gankIoModel2.getResults().get(i).getUrl());
+                        resultsEntities.get(i).setImageUrl(gankIoModel2.getResults().get(i).getUrl());
+                    }else {
+                        resultsEntities.get(i).setImageUrl(gankIoModel.getResults().get(i).getUrl());
                     }
                 }
                 return gankIoModel;
@@ -207,9 +210,16 @@ public class MainActivity extends AppCompatActivity implements AdvanceAdapter.On
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+            return;
+        }
+        super.onBackPressed();
     }
 
     private Runnable refreshRunnable = new Runnable() {

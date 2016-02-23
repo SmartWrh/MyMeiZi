@@ -61,10 +61,19 @@ public class GankIoModel {
         }
 
         private String url;
+        private String imageUrl;
         private boolean used;
         private String objectId;
         private String createdAt;
         private String updatedAt;
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
 
         public void setWho(String who) {
             this.who = who;

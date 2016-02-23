@@ -1,6 +1,7 @@
 package com.meizi.wrh.mymeizi.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding.view.RxView;
 import com.meizi.wrh.mymeizi.R;
+import com.meizi.wrh.mymeizi.activity.WebActivity;
 import com.meizi.wrh.mymeizi.constans.BaseEnum;
 import com.meizi.wrh.mymeizi.constans.BaseImageUrl;
 import com.meizi.wrh.mymeizi.databinding.ViewHomeFeedBinding;
@@ -28,6 +30,7 @@ import rx.functions.Action1;
 public class MaterialFeedLayout extends RelativeLayout {
 
     private ViewHomeFeedBinding mBinding;
+    private GankIoModel.ResultsEntity mData;
 
     public MaterialFeedLayout(Context context) {
         super(context);
@@ -45,19 +48,23 @@ public class MaterialFeedLayout extends RelativeLayout {
     }
 
     private void initView(Context context) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        final LayoutInflater inflater = LayoutInflater.from(context);
         mBinding = ViewHomeFeedBinding.inflate(inflater, this, true);
         RxView.clicks(mBinding.viewLinearFeed).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-
+                Intent intent = new Intent(getContext(), WebActivity.class);
+                intent.putExtra(WebActivity.WEB_TITLE, mData.getDesc());
+                intent.putExtra(WebActivity.WEB_URL, mData.getUrl());
+                getContext().startActivity(intent);
             }
         });
     }
 
     public void setData(GankIoModel.ResultsEntity data) {
+        mData = data;
         data.setSubType(StrUtil.formatType(data.getType()));
         mBinding.setGankio(data);
-        Glide.with(getContext()).load(data.getUrl()).centerCrop().into(mBinding.viewImgFeed);
+        Glide.with(getContext()).load(data.getImageUrl()).centerCrop().into(mBinding.viewImgFeed);
     }
 }

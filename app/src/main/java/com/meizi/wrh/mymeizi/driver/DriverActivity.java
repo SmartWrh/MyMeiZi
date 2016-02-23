@@ -17,6 +17,7 @@ import com.github.katelee.widget.recyclerviewlayout.AdvanceAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.meizi.wrh.mymeizi.R;
+import com.meizi.wrh.mymeizi.activity.BaseActivity;
 import com.meizi.wrh.mymeizi.adapter.DriverFeedAdapter;
 import com.meizi.wrh.mymeizi.adapter.HomeFeedAdapter;
 import com.meizi.wrh.mymeizi.constans.BaseEnum;
@@ -40,7 +41,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import uk.co.senab.photoview.PhotoView;
 
-public class DriverActivity extends AppCompatActivity implements AdvanceAdapter.OnLoadMoreListener,SwipeRefreshLayout.OnRefreshListener {
+public class DriverActivity extends BaseActivity implements AdvanceAdapter.OnLoadMoreListener,SwipeRefreshLayout.OnRefreshListener {
 
     private int mCount = 1;
     private Retrofit mRetrofit;

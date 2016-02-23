@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
 
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:textColor">@color/black</item>-->
+        <!--<item name="android:alertDialogTheme">@style/LightDialog</item>-->
+        <!--<item name="android:listDivider">@drawable/listdivider</item>-->
+    <!--</style>-->
 
     <style name="PhotoTheme" parent="AppTheme">
         <item name="android:windowContentTransitions">true</item>
@@ -17,4 +20,6 @@
         <item name="android:windowSharedElementExitTransition">@transition/changebounds</item>
         <item name="colorPrimaryDark">@color/black</item>
     </style>
+
+
 </resources>
