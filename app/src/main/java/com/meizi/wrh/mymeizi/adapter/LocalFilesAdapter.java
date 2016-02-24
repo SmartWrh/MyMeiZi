@@ -25,13 +25,11 @@ import java.util.List;
 public class LocalFilesAdapter extends RecyclerView.Adapter<LocalFilesAdapter.ItemHolder> {
     private Context mContext;
     private List<File> mData;
-    private List<File> mTempData;
     private OnItemClickListener mOnItemClickListener;
 
     public LocalFilesAdapter(Context context, List<File> files) {
         mContext = context;
         mData = files;
-        mTempData = new ArrayList<>();
     }
 
     @Override
@@ -53,10 +51,7 @@ public class LocalFilesAdapter extends RecyclerView.Adapter<LocalFilesAdapter.It
         return mData.size();
     }
 
-    public void notifyItemInserted(File file, int position) {
-        mTempData.add(file);
-        super.notifyItemInserted(position);
-    }
+
 
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

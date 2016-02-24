@@ -54,7 +54,6 @@ public class MainActivity extends BaseActivity implements AdvanceAdapter.OnLoadM
     private GankIoService service;
     private MyScrollListener scrollListener;
 
-    private LeftMenuFragment leftMenuFragment;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -91,7 +90,7 @@ public class MainActivity extends BaseActivity implements AdvanceAdapter.OnLoadM
                 for (int i = 0; i < resultsEntities.size(); i++) {
                     if (!resultsEntities.get(i).getType().equals(BaseEnum.fuli.getValue())) {
                         resultsEntities.get(i).setImageUrl(gankIoModel2.getResults().get(i).getUrl());
-                    }else {
+                    } else {
                         resultsEntities.get(i).setImageUrl(gankIoModel.getResults().get(i).getUrl());
                     }
                 }
@@ -248,8 +247,10 @@ public class MainActivity extends BaseActivity implements AdvanceAdapter.OnLoadM
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_fab:
-                Intent intent = new Intent(MainActivity.this, DriverActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, DriverActivity.class);
+//                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, TestActivity.class));
+
                 break;
         }
     }

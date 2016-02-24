@@ -2,12 +2,22 @@ package com.meizi.wrh.mymeizi.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.meizi.wrh.mymeizi.R;
+import com.meizi.wrh.mymeizi.util.PreferenceUtil;
 import com.meizi.wrh.mymeizi.util.StrUtil;
 
 public class WebActivity extends BaseActivity {
@@ -17,6 +27,8 @@ public class WebActivity extends BaseActivity {
     private String mTitle, mUrl;
     private Toolbar toolbar;
     private WebView webView;
+    private ProgressBar progressBar;
+    private RelativeLayout relaGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +43,27 @@ public class WebActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         if (!StrUtil.isEmpty(mUrl)) {
             webView.loadUrl(mUrl);
+            webView.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public void onProgressChanged(WebView view, int newProgress) {
+                    if (newProgress == 100) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                    } else {
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setProgress(newProgress);
+                    }
+                    super.onProgressChanged(view, newProgress);
+                }
+            });
         }
     }
 
     private void initView() {
+        relaGroup = (RelativeLayout) findViewById(R.id.web_group);
         toolbar = (Toolbar) findViewById(R.id.web_toolbar);
         toolbar.setTitle(mTitle);
         setSupportActionBar(toolbar);
-        webView = (WebView) findViewById(R.id.web_content);
+        initAddView();
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -48,5 +73,38 @@ public class WebActivity extends BaseActivity {
                 return true;
             }
         });
+    }
+
+    private void initAddView() {
+        progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+        progressBar.setProgressDrawable(ContextCompat.getDrawable(this, R.drawable.web_progress));
+        webView = new WebView(getApplicationContext());
+        relaGroup.addView(webView);
+        relaGroup.addView(progressBar);
+
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) progressBar.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        layoutParams.height = 5;
+        progressBar.setLayoutParams(layoutParams);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                webView.removeAllViews();
+                webView.destroy();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        webView.removeAllViews();
+        webView.destroy();
     }
 }

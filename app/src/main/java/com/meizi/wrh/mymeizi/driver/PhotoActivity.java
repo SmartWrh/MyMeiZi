@@ -47,6 +47,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     public static final String BITMAP = PhotoActivity.class.getSimpleName() + "_bitmap";
     public static final String IMAGE_URL = PhotoActivity.class.getSimpleName() + "_image_url";
     private String mImageUrl;
+    private byte[] mByteArray;
     private FileUtil fileUtil;
     private MediaScannerConnection connection;
     private PhotoViewAttacher attacher;
@@ -62,11 +63,11 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         imgDownLoad = (ScaleImageView) findViewById(R.id.photo_img_download);
         imgDownLoad.setOnClickListener(this);
         mImageUrl = getIntent().getExtras().getString(IMAGE_URL);
+        mByteArray = getIntent().getByteArrayExtra(BITMAP);
         fileUtil = new FileUtil(this);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            byte[] byteArray = getIntent().getByteArrayExtra(BITMAP);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mByteArray != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(mByteArray, 0, mByteArray.length);
             imgContent.setImageBitmap(bitmap);
             ViewCompat.setTransitionName(imgContent, "driverView");
             attacher = new PhotoViewAttacher(imgContent);

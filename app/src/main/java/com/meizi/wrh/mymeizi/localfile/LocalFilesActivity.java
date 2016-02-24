@@ -2,26 +2,30 @@ package com.meizi.wrh.mymeizi.localfile;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
+
 import com.meizi.wrh.mymeizi.R;
 import com.meizi.wrh.mymeizi.activity.BaseActivity;
 import com.meizi.wrh.mymeizi.adapter.LocalFilesAdapter;
 import com.meizi.wrh.mymeizi.listener.OnItemClickListener;
 import com.meizi.wrh.mymeizi.util.DividerItemDecoration;
 import com.meizi.wrh.mymeizi.util.FileUtil;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-public class LocalFilesActivity extends BaseActivity implements OnItemClickListener {
+public class LocalFilesActivity extends BaseActivity implements OnItemClickListener{
 
     private List<File> mFileData = new ArrayList<>();
     private FileUtil fileUtil;
@@ -41,14 +45,13 @@ public class LocalFilesActivity extends BaseActivity implements OnItemClickListe
         toolbar.setTitle(getResources().getString(R.string.local_files_manager));
         setSupportActionBar(toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.local_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+           recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fileAdapter = new LocalFilesAdapter(this, mFileData);
         fileAdapter.setOnItemClickListener(this);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+          recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(fileAdapter);
-        fileUtil = new FileUtil(this);
-        loadData();
-
+         fileUtil = new FileUtil(this);
+         loadData();
     }
 
     private void loadData() {
@@ -66,7 +69,7 @@ public class LocalFilesActivity extends BaseActivity implements OnItemClickListe
             @Override
             public void onNext(File file) {
                 mFileData.add(file);
-                fileAdapter.notifyItemInserted(file, mFileData.size());
+                fileAdapter.notifyItemInserted( mFileData.size());
             }
         });
     }
@@ -75,7 +78,7 @@ public class LocalFilesActivity extends BaseActivity implements OnItemClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                onBackPressed();
                 break;
         }
         return true;
@@ -99,7 +102,7 @@ public class LocalFilesActivity extends BaseActivity implements OnItemClickListe
             mDeleteDialog.setNegativeButton("取消", null);
             mDeleteDialog.create();
         }
-        mDeleteDialog.setPositiveButton("确认", new DialogClick(position));
+          mDeleteDialog.setPositiveButton("确认", new DialogClick(position));
         mDeleteDialog.setMessage(mFileData.get(position).getName());
         mDeleteDialog.show();
     }
