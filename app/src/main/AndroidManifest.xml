@@ -30,8 +30,7 @@
         </activity>
         <activity android:name=".activity.WebActivity" >
         </activity>
-        <activity android:name=".activity.TestActivity" >
-        </activity>
+
     </application>
 
 </manifest>

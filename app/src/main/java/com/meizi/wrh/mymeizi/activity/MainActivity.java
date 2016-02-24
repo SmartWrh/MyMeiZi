@@ -247,10 +247,8 @@ public class MainActivity extends BaseActivity implements AdvanceAdapter.OnLoadM
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_fab:
-//                Intent intent = new Intent(MainActivity.this, DriverActivity.class);
-//                startActivity(intent);
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
-
+                Intent intent = new Intent(MainActivity.this, DriverActivity.class);
+                startActivity(intent);
                 break;
         }
     }
