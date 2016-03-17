@@ -29,6 +29,7 @@ import com.meizi.wrh.mymeizi.driver.DriverActivity;
 import com.meizi.wrh.mymeizi.fragment.LeftMenuFragment;
 import com.meizi.wrh.mymeizi.model.GankIoModel;
 import com.meizi.wrh.mymeizi.util.HidingScrollListener;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,7 @@ public class MainActivity extends BaseActivity implements AdvanceAdapter.OnLoadM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LeakCanary.install(this.getApplication());
         initView();
         initData();
 
@@ -87,8 +89,9 @@ public class MainActivity extends BaseActivity implements AdvanceAdapter.OnLoadM
             @Override
             public GankIoModel call(GankIoModel gankIoModel, GankIoModel gankIoModel2) {
                 List<GankIoModel.ResultsEntity> resultsEntities = gankIoModel.getResults();
+                int size = gankIoModel2.getResults().size();
                 for (int i = 0; i < resultsEntities.size(); i++) {
-                    if (!resultsEntities.get(i).getType().equals(BaseEnum.fuli.getValue())) {
+                    if (!resultsEntities.get(i).getType().equals(BaseEnum.fuli.getValue()) && size > i) {
                         resultsEntities.get(i).setImageUrl(gankIoModel2.getResults().get(i).getUrl());
                     } else {
                         resultsEntities.get(i).setImageUrl(gankIoModel.getResults().get(i).getUrl());

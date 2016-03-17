@@ -25,22 +25,18 @@ public class WebActivity extends BaseActivity {
     public static final String WEB_TITLE = WebActivity.class.getSimpleName() + "_web_title";
     public static final String WEB_URL = WebActivity.class.getSimpleName() + "_web_url";
     private String mTitle, mUrl;
-    private Toolbar toolbar;
     private WebView webView;
     private ProgressBar progressBar;
-    private RelativeLayout relaGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web);
+        setContentWithToolbarView(R.layout.activity_web);
         Intent intent = getIntent();
 
         mTitle = intent.getExtras().getString(WEB_TITLE);
         mUrl = intent.getExtras().getString(WEB_URL);
         initView();
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
         if (!StrUtil.isEmpty(mUrl)) {
             webView.loadUrl(mUrl);
             webView.setWebChromeClient(new WebChromeClient() {
@@ -59,10 +55,7 @@ public class WebActivity extends BaseActivity {
     }
 
     private void initView() {
-        relaGroup = (RelativeLayout) findViewById(R.id.web_group);
-        toolbar = (Toolbar) findViewById(R.id.web_toolbar);
-        toolbar.setTitle(mTitle);
-        setSupportActionBar(toolbar);
+        setTitle(mTitle);
         initAddView();
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -76,17 +69,10 @@ public class WebActivity extends BaseActivity {
     }
 
     private void initAddView() {
-        progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+        progressBar = (ProgressBar) findViewById(R.id.web_progressBar);
         progressBar.setProgressDrawable(ContextCompat.getDrawable(this, R.drawable.web_progress));
-        webView = new WebView(getApplicationContext());
-        relaGroup.addView(webView);
-        relaGroup.addView(progressBar);
-
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) progressBar.getLayoutParams();
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = 5;
-        progressBar.setLayoutParams(layoutParams);
-
+        webView = (WebView) findViewById(R.id.web_content);
+        webView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override

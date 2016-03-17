@@ -30,6 +30,7 @@ public class StrokeImageView extends ImageView {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.StrokeImageView);
         mStrokeWidth = a.getDimensionPixelOffset(R.styleable.StrokeImageView_strokeWidth, STROKE_WIDTH);
+        a.recycle();
     }
 
     public StrokeImageView(Context context, AttributeSet attrs, int defStyleAttr) {

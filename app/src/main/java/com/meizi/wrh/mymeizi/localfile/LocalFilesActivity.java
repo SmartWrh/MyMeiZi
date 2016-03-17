@@ -30,7 +30,6 @@ public class LocalFilesActivity extends BaseActivity implements OnItemClickListe
     private List<File> mFileData = new ArrayList<>();
     private FileUtil fileUtil;
 
-    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private LocalFilesAdapter fileAdapter;
     private AlertDialog.Builder mDeleteDialog;
@@ -40,10 +39,8 @@ public class LocalFilesActivity extends BaseActivity implements OnItemClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_local_files);
-        toolbar = (Toolbar) findViewById(R.id.local_files_toolbar);
-        toolbar.setTitle(getResources().getString(R.string.local_files_manager));
-        setSupportActionBar(toolbar);
+        setContentWithToolbarView(R.layout.activity_local_files);
+        setTitle(getResources().getString(R.string.local_files_manager));
         recyclerView = (RecyclerView) findViewById(R.id.local_list);
            recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fileAdapter = new LocalFilesAdapter(this, mFileData);
@@ -72,16 +69,6 @@ public class LocalFilesActivity extends BaseActivity implements OnItemClickListe
                 fileAdapter.notifyItemInserted( mFileData.size());
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return true;
     }
 
     @Override

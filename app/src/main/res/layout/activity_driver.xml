@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,18 +7,10 @@
     tools:context="com.meizi.wrh.mymeizi.driver.DriverActivity">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/driver_toolbar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="?colorPrimary"
-        app:navigationIcon="@drawable/ic_arrow_back_white"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <com.github.katelee.widget.RecyclerViewLayout
         android:id="@+id/driver_recycler"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/driver_toolbar" />
+        />
 
-</RelativeLayout>
+</LinearLayout>

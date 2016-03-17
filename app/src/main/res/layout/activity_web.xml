@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/web_group"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.meizi.wrh.mymeizi.activity.WebActivity">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/web_toolbar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="?colorPrimary"
-        app:navigationIcon="@drawable/ic_arrow_back_white"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-
-    <RelativeLayout
-        android:id="@+id/web_group"
+    <WebView
+        android:id="@+id/web_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/web_toolbar">
+        android:layout_height="match_parent" />
 
-
-    </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/web_progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentTop="true"
+        android:progressDrawable="@drawable/web_progress" />
 
 
 </RelativeLayout>

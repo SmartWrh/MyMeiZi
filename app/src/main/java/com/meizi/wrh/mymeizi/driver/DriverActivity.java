@@ -48,7 +48,6 @@ public class DriverActivity extends BaseActivity implements AdvanceAdapter.OnLoa
     private Subscription mLoadNetScription;
     private GankIoService service;
 
-    private Toolbar toolbar;
     private DriverFeedAdapter feedAdapter;
     private RecyclerViewLayout recyclerView;
 
@@ -58,7 +57,7 @@ public class DriverActivity extends BaseActivity implements AdvanceAdapter.OnLoa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver);
+        setContentWithToolbarView(R.layout.activity_driver);
         initView();
         initData();
         mRetrofit = new Retrofit.Builder()
@@ -84,9 +83,7 @@ public class DriverActivity extends BaseActivity implements AdvanceAdapter.OnLoa
     }
 
     private void initView() {
-        toolbar = (Toolbar) findViewById(R.id.driver_toolbar);
-        toolbar.setTitle(getResources().getString(R.string.driver_know_world));
-        setSupportActionBar(toolbar);
+        setTitle(getResources().getString(R.string.driver_know_world));
         recyclerView = (RecyclerViewLayout) findViewById(R.id.driver_recycler);
         recyclerView.getRecyclerView().setHasFixedSize(true);
         recyclerView.post(refreshRunnable);
@@ -116,15 +113,7 @@ public class DriverActivity extends BaseActivity implements AdvanceAdapter.OnLoa
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return true;
-    }
+
 
     @Override
     public void loadMore() {
@@ -150,6 +139,8 @@ public class DriverActivity extends BaseActivity implements AdvanceAdapter.OnLoa
 
         @Override
         public void onError(Throwable e) {
+            feedAdapter.setLoadingMore(false);
+            recyclerView.setRefreshing(false);
             Toast.makeText(DriverActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
